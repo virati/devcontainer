@@ -10,17 +10,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl ca-certifi
 # Update pip
 RUN pip install --upgrade pip
 
-
+#Install uv MY way
 USER vscode
-
-#Install poetry official way
-#RUN curl -sSL https://install.python-poetry.org | python -
-#ENV PATH = "${PATH}:/home/vscode/.local/bin"
-
-#Install uv official way
-ADD https://astral.sh/uv/install.sh /uv-installer.sh
-RUN sh /uv-installer.sh && rm /uv-installer.sh
-ENV PATH="/root/.local/bin/:$PATH"
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH = "${PATH}:/home/vscode/.local/bin"
 
 ## Git setup
 RUN git config --global diff.tool vscode && git config --global difftool.vscode.cmd 'code --wait --diff $LOCAL $REMOTE'
